@@ -1,0 +1,242 @@
+kv = {import:kv-plugin}
+uploadPlugin = {import:upload-plugin}
+createServerSocket = {import:server-plugin}
+
+$meta
+  title = Pink Coquette Dreams
+  description = Soft girl aesthetic with dreamy pastel details. Add your own songs in the easy admin page.
+  tags = girlie, coquette, pink, soft, aesthetic
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,600&display=swap');
+:root{--pink:#c4587a; --pink2:#e88aa5; --line:#f2b8c6; --cream:#fffaf3; --ink:#4a2030; --muted:#b76a8a;}
+body{background:#fff5f7; color:#6b2d44; margin:0; text-align:center; font-family:"Quicksand", system-ui, sans-serif; overflow-x:hidden;}
+body::before{content:""; position:fixed; inset:0; z-index:-2; background:radial-gradient(circle at 12% 8%, #ffe4ec 0 90px, transparent 91px),radial-gradient(circle at 88% 12%, #ffe4ec 0 70px, transparent 71px),radial-gradient(circle at 85% 85%, #ffe9ef 0 110px, transparent 111px),radial-gradient(circle at 8% 88%, #ffe9ef 0 90px, transparent 91px),linear-gradient(#fff5f7,#fff5f7);}
+body::after{content:""; position:fixed; inset:0; z-index:-1; opacity:.5; background-image:radial-gradient(#f2b8c6 1.2px, transparent 1.3px); background-size:22px 22px;}
+*{box-sizing:border-box}
+.wrap{max-width:760px; margin:0 auto; padding:0 18px 80px;}
+.marquee{overflow:hidden; white-space:nowrap; background:var(--ink); color:#ffd6e4; font-size:12px; letter-spacing:.22em; font-weight:700; padding:9px 0; margin:0 -18px;}
+.marquee .track{display:inline-block; white-space:nowrap; animation:mq 60s linear infinite;}
+.marquee .track span{padding:0 10px;}
+@keyframes mq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.badge{display:inline-block; background:#fff; border:1.5px solid var(--line); border-radius:99px; padding:6px 16px; font-size:11px; letter-spacing:.18em; font-weight:700; color:var(--pink); margin-top:22px;}
+h1{font-family:"Fraunces", serif; font-style:italic; font-size:clamp(44px,8vw,72px); margin:12px 0 4px; color:var(--ink); line-height:1.02;}
+h1 .bowT{display:inline-block; width:.9em; height:.9em; vertical-align:baseline;}
+.sub{color:var(--muted); font-size:15px; margin:0 0 6px;}
+.gingham{height:24px; border-radius:99px; background:repeating-conic-gradient(#f9d3dc 0% 25%, #fff 0% 50%) 0 0/24px 24px; border:1.5px solid var(--line); margin:16px auto; max-width:460px;}
+.heroCollage{position:relative; background:var(--cream); border:2px solid #ffe0eb; border-radius:26px; padding:14px; box-shadow:0 18px 50px rgba(196,88,122,.18); margin-top:8px; text-align:left;}
+.heroCollage img.main{width:100%; border-radius:16px; display:block; object-fit:cover; aspect-ratio:16/8;}
+.tape{position:absolute; width:110px; height:30px; background:rgba(249,211,220,.9); border-left:1px dashed #fff; border-right:1px dashed #fff; top:-12px; left:50%; transform:translateX(-50%) rotate(-4deg); border-radius:2px; box-shadow:0 2px 6px rgba(0,0,0,.08);}
+.bowFloat{position:absolute; width:84px; filter:drop-shadow(0 8px 14px rgba(196,88,122,.35)); animation:bob 9s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-5px) rotate(-4deg)}}
+.stickerRow{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;}
+.stickerRow div{flex:1 1 140px; background:#fff; border:1.5px solid #ffe0eb; border-radius:16px; padding:10px 12px; font-size:12px; font-weight:700; color:var(--ink);}
+.stickerRow small{display:block; font-weight:500; color:var(--muted); font-size:11px; margin-top:2px;}
+.card{background:#fff; border:2px solid #ffe0eb; border-radius:24px; padding:22px 20px; box-shadow:0 12px 40px rgba(196,88,122,.12); margin-top:16px; text-align:left; position:relative; overflow:hidden;}
+.card.center{text-align:center;}
+.card.lace::before{content:""; position:absolute; inset:0 0 auto 0; height:10px; background:radial-gradient(circle at 8px -3px, transparent 10px, #ffd6e4 11px); background-size:20px 10px;}
+.disc{width:150px; height:150px; margin:14px auto 6px; border-radius:50%; background:radial-gradient(circle at center, var(--pink2) 0 16%, #fff 16% 18%, #ffc9da 18% 36%, #ff9ebb 36% 38%, #ffd6e4 38% 58%, #f2b8c6 58% 100%); border:7px solid #fff; box-shadow:0 12px 30px rgba(196,88,122,.3); animation:spin 8s linear infinite; animation-play-state:paused; position:relative;}
+.disc.playing{animation-play-state:running;}
+.disc::after{content:""; position:absolute; inset:0; margin:auto; width:54px; height:54px; border-radius:50%; background:url('https://user.uploads.dev/file/8c7f699432741c8bbef2656f910709cd.jpg') center/cover; border:3px solid #fff; box-shadow:0 4px 10px rgba(0,0,0,.15);}
+@keyframes spin{to{transform:rotate(360deg)}}
+.nowTitle{font-family:"Fraunces", serif; font-style:italic; font-size:24px; margin:8px 0 2px; color:var(--ink);}
+.nowArtist{font-size:13px; color:var(--muted); margin:0 0 10px;}
+.controls{display:flex; gap:10px; justify-content:center; align-items:center; margin:10px 0;}
+.controls button{border:0; border-radius:50%; cursor:pointer; font-family:inherit;}
+#playBtn{width:68px; height:68px; background:var(--pink); color:#fff; font-size:26px; box-shadow:0 8px 22px rgba(196,88,122,.4);}
+#prevBtn,#nextBtn{width:46px; height:46px; background:#ffe4ec; color:var(--pink); font-size:18px;}
+.songRow{display:flex; gap:12px; align-items:center; background:#fff7f7; border:1.5px solid #ffe0eb; border-radius:16px; padding:10px 12px; margin:8px 0;}
+.songRow.playing{border-color:var(--pink); background:#fff0f4;}
+.songRow img{width:48px; height:48px; border-radius:12px; object-fit:cover; background:#ffe4ec;}
+.songMeta{flex:1; text-align:left; min-width:0;}
+.songMeta b{display:block; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.songMeta small{color:var(--muted); font-size:12px;}
+.songRow button{border:1.5px solid var(--line); background:#fff; border-radius:99px; padding:7px 14px; font-family:inherit; font-weight:700; font-size:12px; color:var(--pink); cursor:pointer; white-space:nowrap;}
+.langTabs{display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 4px;}
+.langTab{border:1.5px solid var(--line); background:#fff; border-radius:99px; padding:7px 14px; font-family:inherit; font-weight:700; font-size:12px; color:var(--pink); cursor:pointer;}
+.langTab.active{background:var(--pink); border-color:var(--pink); color:#fff;}
+.langHead{font-weight:700; letter-spacing:.12em; font-size:12px; color:var(--pink); margin:14px 0 2px; text-align:left;}
+.vibeGrid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:12px;}
+.vibeGrid div{background:var(--cream); border:1.5px dashed var(--line); border-radius:16px; padding:14px 8px; font-size:12px; font-weight:700;}
+.vibeGrid small{display:block; font-weight:500; color:var(--muted); margin-top:3px;}
+.quote{background:var(--ink); color:#ffd6e4; border-radius:20px; padding:20px; margin-top:16px; font-family:"Fraunces", serif; font-style:italic; font-size:20px;}
+.quote small{display:block; font-family:"Quicksand"; font-style:normal; font-size:11px; letter-spacing:.2em; margin-top:8px; color:#e8a0b5;}
+label{display:block; font-size:12px; letter-spacing:.12em; font-weight:700; color:var(--pink); margin:14px 0 6px; text-align:left;}
+input[type=text]{width:100%; border:1.5px solid var(--line); border-radius:14px; padding:12px 14px; font-family:inherit; font-size:15px; background:#fff7f7; color:var(--ink);}
+input[type=file]{width:100%; font-family:inherit; font-size:13px;}
+.hint{font-size:12px; color:var(--muted); text-align:left; margin:4px 0 0;}
+#addBtn{width:100%; margin-top:16px; border:0; background:var(--pink); color:#fff; border-radius:16px; padding:15px; font-family:inherit; font-weight:700; font-size:16px; cursor:pointer; box-shadow:0 8px 22px rgba(196,88,122,.35);}
+#addBtn:disabled{opacity:.6;}
+#statusEl{font-size:13px; color:var(--pink); min-height:20px; margin-top:10px; font-weight:600;}
+.loading-dots::after{content:""; animation:dots 1s steps(4) infinite;}
+@keyframes dots{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}
+.adminRow{display:flex; gap:8px; align-items:center; background:#fff7f7; border:1.5px solid #ffe0eb; border-radius:14px; padding:8px 10px; margin:8px 0;}
+.adminRow span{flex:1; text-align:left; font-size:13px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.adminRow button{border:1px solid var(--line); background:#fff; border-radius:99px; padding:6px 12px; font-size:12px; font-weight:700; color:#a33; cursor:pointer;}
+.empty{padding:26px 10px; color:var(--muted); font-size:14px;}
+.foot{margin-top:22px; font-size:11px; color:#c99;}
+.step{background:#fff0f4; border-radius:12px; padding:10px 12px; font-size:13px; text-align:left; margin:8px 0; color:#7a3a52;}
+audio{display:none;}
+.floatStickers span{position:fixed; z-index:0; pointer-events:none; opacity:.35; animation:drift ease-in-out infinite alternate; will-change:transform;}
+@keyframes drift{from{transform:translate3d(0,0,0) rotate(-6deg)}to{transform:translate3d(var(--dx,40px),var(--dy,-50px),0) rotate(8deg)}}
+@media (prefers-reduced-motion:reduce){.floatStickers span,.bowFloat,.marquee .track,.disc{animation:none !important;}}
+@media(max-width:560px){.vibeGrid{grid-template-columns:1fr 1fr;} .heroCollage img.main{aspect-ratio:4/3;}}
+</style>
+
+<div class="marquee"><div class="track"><span>BOWS • PEARLS • SATIN • MATCHA • JOURNALING • CROISSANTS • LACE • POLAROIDS • </span><span>BOWS • PEARLS • SATIN • MATCHA • JOURNALING • CROISSANTS • LACE • POLAROIDS • </span></div></div>
+<div class="wrap">
+<div id="listenView">
+<div class="badge">PINK COQUETTE CLUB</div>
+<h1>pink coquette dreams</h1>
+<p class="sub">dreamy pastel details, cafe journaling, everyday little luxuries</p>
+<div class="gingham"></div>
+<div class="heroCollage">
+<div class="tape"></div>
+<img class="main" src="https://user.uploads.dev/file/00bbd5ac1ea819ce5e140309b64a1e7c.jpg" alt="pink cafe collage">
+<img class="bowFloat" src="https://user.uploads.dev/file/8c7f699432741c8bbef2656f910709cd.jpg" style="right:-10px; top:-30px;" alt="bow">
+<div class="stickerRow">
+<div>cafe journaling<small>croissants + coffee + stamps</small></div>
+<div>satin + pearls<small>soft girl essentials</small></div>
+<div>polaroid wall<small>save your pretty days</small></div>
+</div></div>
+<div class="card center lace">
+<div style="font-size:11px; letter-spacing:.2em; font-weight:700; color:var(--pink);">NOW SPINNING</div>
+<div class="disc" id="discEl"></div>
+<div class="nowTitle" id="nowTitleEl">no song yet</div>
+<p class="nowArtist" id="nowArtistEl">new songs coming soon</p>
+<div class="controls"><button id="prevBtn">⏮</button><button id="playBtn">▶</button><button id="nextBtn">⏭</button></div>
+<input type="range" id="seekBar" value="0" min="0" max="100" step="0.1" style="width:100%; accent-color:#c4587a;">
+<div style="font-size:12px; color:var(--muted); font-weight:600;"><span id="curEl">0:00</span> • <span id="durEl">0:00</span></div>
+</div>
+<div class="card">
+<div style="font-weight:700; letter-spacing:.12em; font-size:12px; color:var(--pink);">MY PLAYLIST • PICK A LANGUAGE</div>
+<div class="langTabs" id="langTabs"></div>
+<div id="playlistCtn"><div class="empty">loading songs...</div></div>
+</div>
+<div class="card center">
+<div style="font-size:11px; letter-spacing:.2em; font-weight:700; color:var(--pink);">JOIN THE PINK CLUB</div>
+<div class="nowTitle" style="font-size:20px;">get counted as a cutie</div>
+<p class="hint" style="text-align:center;">sign up so Hania knows you stopped by</p>
+<label for="joinNameInput">YOUR NAME</label>
+<input type="text" id="joinNameInput" placeholder="your name" maxlength="30" style="text-align:center;">
+<label for="joinEmailInput">YOUR EMAIL</label>
+<input type="text" id="joinEmailInput" placeholder="you@example.com" maxlength="60" autocomplete="email" style="text-align:center;">
+<button id="joinBtn" style="width:100%; margin-top:14px; border:0; background:var(--pink); color:#fff; border-radius:14px; padding:13px; font-family:inherit; font-weight:700; font-size:15px; cursor:pointer;">Join ♡</button>
+<div id="joinMsgEl" style="font-size:13px; font-weight:600; color:var(--pink); min-height:20px; margin-top:8px;"></div>
+<div id="clubCountEl" style="font-size:12px; color:var(--muted);"></div>
+</div>
+<div class="vibeGrid">
+<div>satin bows<small>hair + dresses + gifts</small></div><div>cafe mornings<small>matcha + croissant</small></div><div>journaling<small>stickers + washi tape</small></div><div>pearls + lace<small>dainty little luxuries</small></div><div>flower stamps<small>postcards to besties</small></div><div>polaroids<small>pink memories wall</small></div>
+</div>
+<div class="quote">focus on your dreams<small>COQUETTE REMINDER • BE SOFT • STAY PRETTY</small></div>
+<p class="foot">made with love <span id="secretDot" style="opacity:.25;">.</span></p>
+</div>
+<div id="adminLoginView" hidden>
+<div class="badge">PRIVATE</div><h1>admin login</h1><p class="sub">enter your admin email to continue</p>
+<div class="card center">
+<label for="adminEmailInput">ADMIN EMAIL</label>
+<input type="text" id="adminEmailInput" placeholder="you@example.com" autocomplete="username" style="text-align:center;">
+<button id="unlockBtn" style="width:100%; margin-top:14px; border:0; background:#c4587a; color:#fff; border-radius:14px; padding:13px; font-family:inherit; font-weight:700; font-size:15px; cursor:pointer;">Unlock</button>
+<div id="loginMsgEl" style="font-size:13px; color:#a33; min-height:20px; margin-top:8px; font-weight:600;"></div>
+</div></div>
+<div id="adminView" hidden>
+<div class="badge">EASY ADMIN • PRIVATE</div>
+<div><button id="backBtn" style="margin-top:10px; border:1.5px solid #f2b8c6; background:#fff; border-radius:99px; padding:8px 20px; font-family:inherit; font-weight:700; font-size:13px; color:#c4587a; cursor:pointer;">← back to site</button></div>
+<h1>add songs</h1><p class="sub">3 steps only — fill, pick, add. done.</p>
+<div class="card">
+<div class="step"><b>Step 1 —</b> type a song name (example: Pink Morning)</div>
+<label for="titleInput">SONG TITLE</label><input type="text" id="titleInput" placeholder="Pink Morning" maxlength="80">
+<label for="artistInput">ARTIST - optional</label><input type="text" id="artistInput" placeholder="my fave singer" maxlength="80">
+<label for="langInput">LANGUAGE / SECTION</label>
+<select id="langInput" style="width:100%; border:1.5px solid var(--line); border-radius:14px; padding:12px 14px; font-family:inherit; font-size:15px; background:#fff7f7; color:var(--ink);">
+<option value="urdu">Urdu</option><option value="punjabi" selected>Punjabi</option><option value="saraiki">Saraiki</option><option value="english">English</option><option value="pashto">Pashto</option><option value="others">Others</option></select>
+<div class="step" style="margin-top:16px;"><b>Step 2 —</b> pick an MP3 file from your phone OR paste a link</div>
+<label for="fileInput">UPLOAD MP3 FILE</label><input type="file" id="fileInput" accept="audio/*">
+<p class="hint">easiest: tap above and choose a song. it uploads automatically when you press Add.</p>
+<label for="urlInput">OR PASTE SONG LINK (mp3)</label><input type="text" id="urlInput" placeholder="https://...mp3" maxlength="500">
+<label for="coverInput">COVER IMAGE LINK - optional</label><input type="text" id="coverInput" placeholder="https://...jpg - leave empty for pink cover" maxlength="500">
+<button id="addBtn">Add song ♡</button>
+<button id="cancelUpBtn" hidden style="width:100%; margin-top:8px; border:1.5px solid #f2b8c6; background:#fff; border-radius:14px; padding:11px; font-family:inherit; font-weight:700; font-size:14px; color:#a33; cursor:pointer;">Cancel upload</button>
+<div id="statusEl"></div></div>
+<div class="card"><div style="font-weight:700; letter-spacing:.12em; font-size:12px; color:var(--pink);">ADDED SONGS - tap delete to remove</div><div id="adminListCtn"><div class="empty">no songs yet</div></div></div>
+<div class="card">
+<div style="font-weight:700; letter-spacing:.12em; font-size:12px; color:var(--pink);">MEMBERS • WHO OPENED + WHO JOINED</div>
+<p class="hint">visits = how many times the site was opened. members = who signed up.</p>
+<div id="statLineEl" style="font-size:14px; font-weight:700; margin:8px 0;">loading...</div>
+<button id="refreshStatsBtn" style="border:1.5px solid #f2b8c6; background:#fff; border-radius:99px; padding:8px 20px; font-family:inherit; font-weight:700; font-size:13px; color:#c4587a; cursor:pointer;">refresh</button>
+<div id="memberListCtn" style="margin-top:10px;"><div class="empty">no members yet</div></div>
+<button id="moreMembersBtn" style="border:1.5px solid #f2b8c6; background:#fff; border-radius:99px; padding:8px 20px; font-family:inherit; font-weight:700; font-size:13px; color:#c4587a; cursor:pointer; margin-top:8px;">load more</button>
+</div></div></div>
+<div class="floatStickers" id="floatCtn"></div>
+
+<script type="text/x-server-plugin">
+const VER = 2, HEAD = 16, REC = 90, NAME_MAX = 32, EMAIL_MAX = 48, MAX_SIGNUPS = 5000;
+const SIGNUP_AREA = MAX_SIGNUPS * REC, SONGS_OFF = HEAD + SIGNUP_AREA, SONGS_RESERVE = 8, SONGS_DATA = SONGS_OFF + SONGS_RESERVE, SONGS_BYTES = 2 * 1024 * 1024, SONG_REC_MAX = 2048, ADD_COOLDOWN_MS = 2000;
+const enc = new TextEncoder(), dec = new TextDecoder();
+function u32get(o){return(state[o]|(state[o+1]<<8)|(state[o+2]<<16)|(state[o+3]<<24))>>>0}
+function u32set(o,v){state[o]=v&255;state[o+1]=(v>>>8)&255;state[o+2]=(v>>>16)&255;state[o+3]=(v>>>24)&255}
+function ensure(){if(state[0]===VER)return;if(state[0]===1){u32set(12,0);state[0]=VER;return}state[0]=VER;state[1]=0;state[2]=0;state[3]=0;u32set(4,0);u32set(8,0);u32set(12,0)}
+function cap(){var c=Math.floor((state.length-HEAD)/REC);if(c>MAX_SIGNUPS)c=MAX_SIGNUPS;if(c<0)c=0;return c}
+function recOff(i){return HEAD+i*REC}
+function readRec(i){var o=recOff(i),nl=state[o];if(nl>NAME_MAX)nl=NAME_MAX;var o2=o+1+NAME_MAX,el=state[o2];if(el>EMAIL_MAX)el=EMAIL_MAX;var n="",e="";try{n=dec.decode(state.subarray(o+1,o+1+nl))}catch(err){}try{e=dec.decode(state.subarray(o2+1,o2+1+el))}catch(err){}var t=0;try{t=new DataView(state.buffer,o2+1+EMAIL_MAX,8).getFloat64(0,true)}catch(err){}if(!(t>0))t=0;return{n:n,e:e,t:t}}
+function f64get(o){try{return new DataView(state.buffer,o,8).getFloat64(0,true)}catch(err){return 0}}
+function f64set(o,v){try{new DataView(state.buffer,o,8).setFloat64(0,v,true)}catch(err){}}
+function songCount(){return u32get(12)}
+function songsEnd(){var e=SONGS_DATA+SONGS_BYTES;if(e>state.length)e=state.length;return e}
+function chainEnd(from){var e=songsEnd(),o=from,guard=0;while(o+2<=e&&guard<20000){var len=state[o]|(state[o+1]<<8);if(len===0)break;if(len<12||len>SONG_REC_MAX||o+2+len>e)break;var il0=state[o+2];if(il0<3||il0>40||3+il0>len)break;o+=2+len;guard++}return o}
+function validId(s){if(!s||s.length<3||s.length>40)return false;for(var i=0;i<s.length;i++){var c=s.charCodeAt(i);if(!((c>=48&&c<=57)||(c>=97&&c<=122)||c===45))return false}return true}
+function normLang(s){s=String(s||"").toLowerCase().slice(0,20);if(s==="urdu"||s==="punjabi"||s==="saraiki"||s==="english"||s==="pashto")return s;return"others"}
+ensure();
+self.rpc={
+visit:function(){ensure();var v=u32get(4);if(v<4294967295){v++;u32set(4,v)}return JSON.stringify({visits:v,signups:u32get(8),songs:songCount()})},
+signup:function(args,data){ensure();var s=typeof data==="string"?data:"";if(!s||s.length>500)throw Error("bad request");var obj;try{obj=JSON.parse(s)}catch(err){throw Error("bad request")}var name=String(obj.name||"").trim().slice(0,30),email=String(obj.email||"").trim().toLowerCase().slice(0,60);if(name.length<1)throw Error("please enter your name");if(email.length<5||email.length>60||email.indexOf("@")<1||email.indexOf(".")<0)throw Error("please enter a valid email");var nb0=enc.encode(name),eb0=enc.encode(email),nb=nb0.length>NAME_MAX?nb0.subarray(0,NAME_MAX):nb0,eb=eb0.length>EMAIL_MAX?eb0.subarray(0,EMAIL_MAX):eb0,n=u32get(8),c=cap();for(var i=0;i<n&&i<c;i++){var o=recOff(i),o2=o+1+NAME_MAX,el=state[o2];if(el!==eb.length)continue;var same=true;for(var k=0;k<el;k++)if(state[o2+1+k]!==eb[k]){same=false;break}if(same)throw Error("this email already joined")}if(n>=c)throw Error("club is full");var w=recOff(n);state[w]=nb.length;for(var a=0;a<NAME_MAX;a++)state[w+1+a]=a<nb.length?nb[a]:0;var w2=w+1+NAME_MAX;state[w2]=eb.length;for(var b=0;b<EMAIL_MAX;b++)state[w2+1+b]=b<eb.length?eb[b]:0;try{new DataView(state.buffer,w2+1+EMAIL_MAX,8).setFloat64(0,Date.now(),true)}catch(err){}u32set(8,n+1);return JSON.stringify({ok:true,total:n+1})},
+stats:function(args,data){ensure();var s=typeof data==="string"?data:"{}";if(s.length>200)s="{}";var off=0,lim=50;try{var o=JSON.parse(s);off=Math.floor(Number(o.offset)||0);lim=Math.floor(Number(o.limit)||50)}catch(err){}if(!(off>=0))off=0;if(!(lim>=1))lim=50;if(lim>100)lim=100;var v=u32get(4),n=u32get(8);if(off>n)off=n;var end=Math.min(off+lim,n),items=[];for(var i=off;i<end;i++){var r=readRec(i);items.push({n:r.n.slice(0,30),e:r.e.slice(0,60),t:r.t})}return JSON.stringify({visits:v,total:n,offset:off,items:items})},
+getSongs:function(args,data){ensure();var s=typeof data==="string"?data:"{}";if(s.length>200)s="{}";var off=0,lim=200;try{var o=JSON.parse(s);off=Math.floor(Number(o.offset)||0);lim=Math.floor(Number(o.limit)||200)}catch(err){}if(!(off>=0))off=0;if(!(lim>=1))lim=200;if(lim>200)lim=200;var total=songCount();if(off>total)off=total;var e=songsEnd(),p=SONGS_DATA,idx=0,items=[],guard=0;while(p+2<=e&&guard<20000&&items.length<lim){var len=state[p]|(state[p+1]<<8);if(len===0)break;if(len<12||len>SONG_REC_MAX||p+2+len>e)break;var ilen=state[p+2];if(ilen<3||ilen>40||3+ilen>len)break;if(idx>=off){try{var obj=JSON.parse(dec.decode(state.subarray(p+3+ilen,p+2+len)));items.push({id:String(obj.id||"").slice(0,40),title:String(obj.title||"").slice(0,60),artist:String(obj.artist||"").slice(0,60),url:String(obj.url||"").slice(0,500),cover:String(obj.cover||"").slice(0,500),lang:normLang(obj.lang),t:Number(obj.t)||0})}catch(err){break}}idx++;p+=2+len;guard++}return JSON.stringify({total:total,offset:off,items:items})},
+addSong:function(args,data){ensure();var s=typeof data==="string"?data:"";if(!s||s.length>1500)throw Error("bad request");var now=Date.now(),last=f64get(SONGS_OFF);if(last>0&&now-last<ADD_COOLDOWN_MS)throw Error("slow down a little");var obj;try{obj=JSON.parse(s)}catch(err){throw Error("bad request")}var id=String(obj.id||""),title=String(obj.title||"").trim().slice(0,60),artist=String(obj.artist||"").trim().slice(0,60),url=String(obj.url||"").trim().slice(0,500),cover=String(obj.cover||"").trim().slice(0,500),lang=normLang(obj.lang);if(!validId(id))throw Error("bad song id");if(!title)throw Error("song needs a title");if(url.indexOf("http")!==0)throw Error("song link looks wrong");if(cover&&cover.indexOf("http")!==0)throw Error("cover link looks wrong");var idb=enc.encode(id),rec=JSON.stringify({id:id,title:title,artist:artist,url:url,cover:cover,lang:lang,t:now}),rb=enc.encode(rec);if(1+idb.length+rb.length>SONG_REC_MAX)throw Error("song entry too big");var e=songsEnd(),o=SONGS_DATA,guard=0;while(o+2<=e&&guard<20000){var len=state[o]|(state[o+1]<<8);if(len===0)break;if(len<12||len>SONG_REC_MAX||o+2+len>e)throw Error("song shelf needs repair");var il=state[o+2];if(il<3||il>40||3+il>len)throw Error("song shelf needs repair");if(il===idb.length){var same=true;for(var k=0;k<il;k++)if(state[o+3+k]!==idb[k]){same=false;break}if(same)throw Error("song already added")}o+=2+len;guard++}var tot=1+idb.length+rb.length;if(o+2+tot>e)throw Error("song shelf is full");state[o]=tot&255;state[o+1]=(tot>>>8)&255;state[o+2]=idb.length;for(var a=0;a<idb.length;a++)state[o+3+a]=idb[a];for(var b=0;b<rb.length;b++)state[o+3+idb.length+b]=rb[b];var n2=songCount();u32set(12,n2+1);f64set(SONGS_OFF,now);return JSON.stringify({ok:true,total:n2+1})},
+delSong:function(args,data){ensure();var s=typeof data==="string"?data:"";if(!s||s.length>200)throw Error("bad request");var obj;try{obj=JSON.parse(s)}catch(err){throw Error("bad request")}var id=String(obj.id||"");if(!validId(id))throw Error("bad song id");var idb=enc.encode(id),e=songsEnd(),o=SONGS_DATA,guard=0;while(o+2<=e&&guard<20000){var len=state[o]|(state[o+1]<<8);if(len===0)break;if(len<12||len>SONG_REC_MAX||o+2+len>e)throw Error("song shelf needs repair");var il=state[o+2];if(il<3||il>40||3+il>len)throw Error("song shelf needs repair");var match=il===idb.length;if(match)for(var k=0;k<il;k++)if(state[o+3+k]!==idb[k]){match=false;break}if(match){var tail=o+2+len,tailEnd=chainEnd(tail),mv=tailEnd-tail;for(var m=0;m<mv;m++)state[o+m]=state[tail+m];for(var z=o+mv;z<tailEnd;z++)state[z]=0;var n3=songCount();if(n3>0)u32set(12,n3-1);return JSON.stringify({ok:true,total:n3>0?n3-1:0})}o+=2+len;guard++}throw Error("song not found")}
+};
+</script>
+<audio id="songEl" preload="auto"></audio>
+<script>
+const listenView=document.getElementById('listenView'),adminView=document.getElementById('adminView'),adminLoginView=document.getElementById('adminLoginView'),adminEmailInput=document.getElementById('adminEmailInput'),unlockBtn=document.getElementById('unlockBtn'),loginMsgEl=document.getElementById('loginMsgEl'),secretDot=document.getElementById('secretDot');
+const ADMIN_EMAIL='YOUR_ADMIN_EMAIL_HERE';
+const songEl=document.getElementById('songEl'),discEl=document.getElementById('discEl'),nowTitleEl=document.getElementById('nowTitleEl'),nowArtistEl=document.getElementById('nowArtistEl'),playBtn=document.getElementById('playBtn'),prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn'),seekBar=document.getElementById('seekBar'),curEl=document.getElementById('curEl'),durEl=document.getElementById('durEl'),playlistCtn=document.getElementById('playlistCtn'),langTabs=document.getElementById('langTabs'),titleInput=document.getElementById('titleInput'),artistInput=document.getElementById('artistInput'),fileInput=document.getElementById('fileInput'),urlInput=document.getElementById('urlInput'),coverInput=document.getElementById('coverInput'),langInput=document.getElementById('langInput'),addBtn=document.getElementById('addBtn'),statusEl=document.getElementById('statusEl'),cancelUpBtn=document.getElementById('cancelUpBtn');
+let cancelUpFn=null;if(cancelUpBtn)cancelUpBtn.onclick=()=>{if(cancelUpFn)cancelUpFn()};
+const adminListCtn=document.getElementById('adminListCtn');let songs=[],currentIndex=0;
+const LANGS=[["urdu","Urdu"],["punjabi","Punjabi"],["saraiki","Saraiki"],["english","English"],["pashto","Pashto"],["others","Others"]];let currentLang="all";
+function langLabel(l){for(let k=0;k<LANGS.length;k++)if(LANGS[k][0]===l)return LANGS[k][1];return"Others"}
+function normLangClient(s){s=String(s||"").toLowerCase();for(let k=0;k<LANGS.length;k++)if(LANGS[k][0]===s)return s;return"others"}
+function showListen(){listenView.hidden=false;adminView.hidden=true;adminLoginView.hidden=true;if(location.hash==='#admin')history.replaceState(null,' ',' ')}
+function showLogin(){listenView.hidden=true;adminView.hidden=true;adminLoginView.hidden=false}
+function showAdmin(){listenView.hidden=true;adminLoginView.hidden=true;adminView.hidden=false}
+function isUnlocked(){try{return sessionStorage.getItem('coquette_admin')==='1'}catch(e){return false}}
+unlockBtn.onclick=()=>{const v=(adminEmailInput.value||'').trim().toLowerCase();if(v===ADMIN_EMAIL){try{sessionStorage.setItem('coquette_admin','1')}catch(e){}loginMsgEl.textContent='';showAdmin();history.replaceState(null,'','#admin');try{refreshStats(true)}catch(e){}}else loginMsgEl.textContent='That email is not the admin email.'};
+secretDot.onclick=()=>showLogin();document.getElementById('backBtn').onclick=()=>showListen();
+if(location.hash==='#admin'){if(isUnlocked())showAdmin();else showLogin()}else showListen();
+window.addEventListener('hashchange',()=>{if(location.hash==='#admin'){if(isUnlocked())showAdmin();else showLogin()}else showListen()});
+async function loadSongs(){try{const cached=await root.kv.songs.get('list');if(Array.isArray(cached)&&cached.length){songs=cached;if(currentIndex>=songs.length)currentIndex=0;renderAll()}}catch(e){}try{const ok=await ensureClub();if(ok&&clubSocket){const raw=await clubSocket.rpc.getSongs(JSON.stringify({offset:0,limit:200})),d=JSON.parse(raw);if(Array.isArray(d.items)){songs=d.items;if(currentIndex>=songs.length)currentIndex=0;renderAll();try{await root.kv.songs.set('list',songs)}catch(e){}return}}}catch(e){}if(!songs.length){try{const saved=await root.kv.songs.get('list');songs=Array.isArray(saved)?saved:[]}catch(e){songs=[]}if(currentIndex>=songs.length)currentIndex=0;renderAll()}}
+async function reloadSongsFromServer(){const raw=await clubSocket.rpc.getSongs(JSON.stringify({offset:0,limit:200})),d=JSON.parse(raw);songs=Array.isArray(d.items)?d.items:[];if(currentIndex>=songs.length)currentIndex=0;renderAll();try{await root.kv.songs.set('list',songs)}catch(e){}}
+function makeSongId(){return's'+Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
+function fmt(s){if(!isFinite(s))return'0:00';s=Math.floor(s);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+function coverFor(s){return s.cover||('https://placehold.co/100x100/ffd6e4/c4587a?text='+encodeURIComponent((s.title||'P').slice(0,1).toUpperCase()))}
+function buildLangTabs(){if(!langTabs)return;langTabs.innerHTML='';const counts={all:songs.length};LANGS.forEach(p=>counts[p[0]]=0);songs.forEach(s=>counts[normLangClient(s.lang)]++);const mk=(id,label)=>{const b=document.createElement('button');b.className='langTab'+(currentLang===id?' active':'');b.textContent=label+' ('+(counts[id]||0)+')';b.onclick=()=>{currentLang=id;renderAll()};langTabs.appendChild(b)};mk('all','All');LANGS.forEach(p=>mk(p[0],p[1]))}
+function songRowEl(s,i){const row=document.createElement('div');row.className='songRow'+(i===currentIndex?' playing':'');const img=document.createElement('img');img.src=coverFor(s);img.alt='';const meta=document.createElement('div');meta.className='songMeta';const b=document.createElement('b');b.textContent=s.title;const sm=document.createElement('small');sm.textContent=(s.artist||'unknown artist')+' • '+langLabel(normLangClient(s.lang));meta.appendChild(b);meta.appendChild(sm);const pb=document.createElement('button');pb.textContent=i===currentIndex&&!songEl.paused?'pause':'play';pb.onclick=()=>playIndex(i);row.appendChild(img);row.appendChild(meta);row.appendChild(pb);return row}
+function renderAll(){buildLangTabs();if(!songs.length){playlistCtn.innerHTML='<div class="empty">No songs yet — new songs coming soon.</div>';nowTitleEl.textContent='no song yet';nowArtistEl.textContent='new songs coming soon'}else{playlistCtn.innerHTML='';const visible=currentLang==='all'?LANGS.map(p=>p[0]):[currentLang];let shown=0;visible.forEach(L=>{const idxs=[];songs.forEach((s,i)=>{if(normLangClient(s.lang)===L)idxs.push(i)});if(!idxs.length)return;const head=document.createElement('div');head.className='langHead';head.textContent=langLabel(L)+' • '+idxs.length;playlistCtn.appendChild(head);idxs.forEach(i=>{playlistCtn.appendChild(songRowEl(songs[i],i));shown++})});if(!shown)playlistCtn.innerHTML='<div class="empty">No songs in this section yet.</div>';const cur=songs[currentIndex];nowTitleEl.textContent=cur.title;nowArtistEl.textContent=(cur.artist||'unknown artist')+' • '+langLabel(normLangClient(cur.lang));if(songEl.src!==cur.url)songEl.src=cur.url}
+if(!songs.length)adminListCtn.innerHTML='<div class="empty">no songs yet</div>';else{adminListCtn.innerHTML='';songs.forEach((s,i)=>{const r=document.createElement('div');r.className='adminRow';const sp=document.createElement('span');sp.textContent=(i+1)+'. '+s.title+' • '+langLabel(normLangClient(s.lang));const del=document.createElement('button');del.textContent='delete';del.onclick=async()=>{if(!s.id){statusEl.textContent='Old entry — please re-add it, then delete.';return}del.disabled=true;try{const ok=await ensureClub();if(!ok||!clubSocket)throw Error('no connection to server');await clubSocket.rpc.delSong(JSON.stringify({id:s.id}));await reloadSongsFromServer();statusEl.textContent='Deleted.';setTimeout(()=>{if(statusEl.textContent==='Deleted.')statusEl.textContent=''},2500)}catch(e){statusEl.textContent='Could not delete: '+String(e.message||e).slice(0,80);del.disabled=false}};r.appendChild(sp);r.appendChild(del);adminListCtn.appendChild(r)})}}
+async function playIndex(i){if(!songs.length)return;currentIndex=(i+songs.length)%songs.length;const s=songs[currentIndex];if(songEl.src!==s.url)songEl.src=s.url;try{await songEl.play()}catch(e){}renderAll()}
+playBtn.onclick=async()=>{if(!songs.length)return;if(songEl.paused){if(!songEl.src)songEl.src=songs[currentIndex].url;try{await songEl.play()}catch(e){}}else songEl.pause()};
+prevBtn.onclick=()=>playIndex(currentIndex-1);nextBtn.onclick=()=>playIndex(currentIndex+1);
+songEl.addEventListener('play',()=>{playBtn.textContent='⏸';discEl.classList.add('playing');renderAll()});songEl.addEventListener('pause',()=>{playBtn.textContent='▶';discEl.classList.remove('playing');renderAll()});songEl.addEventListener('ended',()=>playIndex(currentIndex+1));songEl.addEventListener('loadedmetadata',()=>durEl.textContent=fmt(songEl.duration));songEl.addEventListener('timeupdate',()=>{curEl.textContent=fmt(songEl.currentTime);if(songEl.duration)seekBar.value=songEl.currentTime/songEl.duration*100});seekBar.addEventListener('input',()=>{if(songEl.duration)songEl.currentTime=seekBar.value/100*songEl.duration});songEl.volume=.9;
+const joinNameInput=document.getElementById('joinNameInput'),joinEmailInput=document.getElementById('joinEmailInput'),joinBtn=document.getElementById('joinBtn'),joinMsgEl=document.getElementById('joinMsgEl'),clubCountEl=document.getElementById('clubCountEl'),statLineEl=document.getElementById('statLineEl'),memberListCtn=document.getElementById('memberListCtn'),refreshStatsBtn=document.getElementById('refreshStatsBtn'),moreMembersBtn=document.getElementById('moreMembersBtn');
+let clubSocket=null,clubOpened=null,clubConnectTries=0,memberOffset=0;const MEMBER_PAGE=50;
+function showJoinMsg(t,isErr){joinMsgEl.textContent=t;joinMsgEl.style.color=isErr?'#a33':'#c4587a'}
+function connectClub(){if(clubOpened)return clubOpened;try{if(clubSocket)clubSocket.close(1000,'reconnect')}catch(e){}clubSocket=root.createServerSocket();clubSocket.binaryType='arraybuffer';clubOpened=clubSocket.opened.then(async()=>{clubConnectTries=0;try{const info=JSON.parse(await clubSocket.rpc.visit(''));if(clubCountEl)clubCountEl.textContent=info.signups+' cuties joined'}catch(e){}if(!adminView.hidden)refreshStats(false);return true}).catch(()=>{clubOpened=null;return false});clubSocket.addEventListener('close',ev=>{clubOpened=null;const code=ev&&ev.code;if(code===4403||code===4429||code===1011)return;clubConnectTries++;if(clubConnectTries<=4)setTimeout(()=>{if(!clubOpened)connectClub()},1000*clubConnectTries)});return clubOpened}
+async function ensureClub(){connectClub();try{await clubOpened;return true}catch(e){return false}}
+if(joinBtn)joinBtn.onclick=async()=>{const name=(joinNameInput.value||'').trim().slice(0,30),email=(joinEmailInput.value||'').trim().toLowerCase().slice(0,60);if(!name){showJoinMsg('Please type your name first.',true);joinNameInput.focus();return}if(email.length<5||email.indexOf('@')<1){showJoinMsg('Please type a valid email.',true);joinEmailInput.focus();return}joinBtn.disabled=true;showJoinMsg('joining...',false);const ok=await ensureClub();if(!ok||!clubSocket){showJoinMsg('Could not connect. Reload and try again.',true);joinBtn.disabled=false;return}try{const res=JSON.parse(await clubSocket.rpc.signup(JSON.stringify({name:name,email:email})));showJoinMsg('Welcome to the pink club!',false);joinNameInput.value='';joinEmailInput.value='';if(clubCountEl)clubCountEl.textContent=res.total+' cuties joined';try{localStorage.setItem('pink_club_joined',email)}catch(e){}}catch(e){const m=e.message||'could not join';showJoinMsg(m.indexOf('already joined')>=0?'This email already joined.':'Oops: '+m.slice(0,80),true)}joinBtn.disabled=false};
+function esc(s){return String(s==null?'':s)}
+async function refreshStats(reset){if(!statLineEl)return;if(reset)memberOffset=0;const ok=await ensureClub();if(!ok||!clubSocket){statLineEl.textContent='Could not connect to server yet. Tap refresh.';return}statLineEl.textContent='loading...';try{const d=JSON.parse(await clubSocket.rpc.stats(JSON.stringify({offset:memberOffset,limit:MEMBER_PAGE})));statLineEl.textContent=d.visits+' visits • '+d.total+' members';if(reset)memberListCtn.innerHTML='';if(!d.items.length&&memberOffset===0)memberListCtn.innerHTML='<div class="empty">no members yet</div>';d.items.forEach((m,k)=>{const r=document.createElement('div');r.className='adminRow';const sp=document.createElement('span');let when='';try{when=m.t?new Date(m.t).toLocaleDateString():''}catch(e){}sp.textContent=(memberOffset+k+1)+'. '+esc(m.n)+' — '+esc(m.e)+(when?' • '+when:'');r.appendChild(sp);memberListCtn.appendChild(r)});memberOffset=d.offset+d.items.length;moreMembersBtn.style.display=memberOffset<d.total?'':'none';if(!d.items.length)moreMembersBtn.style.display='none'}catch(e){statLineEl.textContent='Could not load. Tap refresh.'}}
+if(refreshStatsBtn)refreshStatsBtn.onclick=()=>refreshStats(true);if(moreMembersBtn)moreMembersBtn.onclick=()=>refreshStats(false);connectClub();
+addBtn.onclick=async()=>{const title=titleInput.value.trim().slice(0,60),artist=artistInput.value.trim().slice(0,60),url=urlInput.value.trim().slice(0,500),cover=coverInput.value.trim().slice(0,500),file=fileInput.files[0];if(!title){statusEl.textContent='Please type a song name first.';titleInput.focus();return}if(!file&&!url){statusEl.textContent='Pick a file OR paste a link.';return}if(url&&url.indexOf('http')!==0){statusEl.textContent='That link looks wrong — it must start with http.';return}if(cover&&cover.indexOf('http')!==0){statusEl.textContent='Cover link looks wrong — it must start with http.';return}if(file&&file.size>25*1024*1024){statusEl.textContent='That file is too big (max ~25MB). Try a smaller file or paste a link instead.';return}addBtn.disabled=true;let upTimer=null,upSecs=0;try{const ok=await ensureClub();if(!ok||!clubSocket)throw Error('no connection to server');let finalUrl=url;if(file){const mb=(file.size/1048576).toFixed(1),upMsg=()=>'Uploading '+mb+'MB... '+upSecs+'s — keep this tab open';statusEl.textContent=upMsg();if(cancelUpBtn)cancelUpBtn.hidden=false;upTimer=setInterval(()=>{upSecs++;statusEl.textContent=upMsg()},1000);let res;try{res=await Promise.race([uploadPlugin(file),new Promise((_,rej)=>setTimeout(()=>rej(Error('up_timeout')),5*60*1000)),new Promise((_,rej)=>{cancelUpFn=()=>rej(Error('up_cancelled'))})])}finally{if(upTimer){clearInterval(upTimer);upTimer=null}if(cancelUpBtn)cancelUpBtn.hidden=true;cancelUpFn=null}if(!res||res.error||!res.url)throw Error((res&&res.error)||'upload failed');finalUrl=res.url;statusEl.textContent='Uploaded! Adding to your playlist...'}if(!finalUrl||finalUrl.indexOf('http')!==0)throw Error('song link looks wrong');await clubSocket.rpc.addSong(JSON.stringify({id:makeSongId(),title:title,artist:artist,url:finalUrl,cover:cover,lang:(langInput&&langInput.value)||'others'}));await reloadSongsFromServer();titleInput.value='';artistInput.value='';urlInput.value='';coverInput.value='';fileInput.value='';statusEl.textContent='Added! Everyone can play it now.'}catch(e){if(upTimer){clearInterval(upTimer);upTimer=null}const m=String(e.message||e);if(m==='up_cancelled')statusEl.textContent='Upload cancelled. Try a smaller file or paste a song link instead.';else if(m==='up_timeout')statusEl.textContent='Upload timed out (5 min). Try a smaller file or paste a link instead.';else if(m==='no connection to server'||m.indexOf('not open')>=0||m.indexOf('INVALID_STATE')>=0)statusEl.textContent='Lost connection to the server. Reload the page and try again.';else if(m==='song link looks wrong')statusEl.textContent='That link looks wrong — it must start with http.';else if(m.indexOf('over_daily_allowance')>=0)statusEl.textContent='Daily upload limit reached — paste a song link instead, or try again tomorrow.';else if(m.indexOf('file_too_big')>=0)statusEl.textContent='File too big for hosting — try a smaller file or paste a link.';else if(m.indexOf('invalid_filetype')>=0)statusEl.textContent='That file type is not allowed — use an MP3.';else if(m.indexOf('slow down')>=0)statusEl.textContent='Slow down a sec, then tap Add again.';else statusEl.textContent='Oops: '+m.slice(0,100)}addBtn.disabled=false;setTimeout(()=>{if(statusEl.textContent.indexOf('Added!')===0)statusEl.textContent=''},4000)};
+loadSongs();window.showAdmin=()=>{if(isUnlocked())showAdmin();else showLogin()};
+const floatCtn=document.getElementById('floatCtn'),icons=['♡','✧','♥'];for(let i=0;i<10;i++){const s=document.createElement('span');s.textContent=icons[i%3];s.style.left=Math.random()*100+'vw';s.style.top=Math.random()*100+'vh';s.style.color=i%2?'#e88aa5':'#c4587a';s.style.fontSize=12+Math.random()*12+'px';s.style.setProperty('--dx',Math.round((Math.random()*2-1)*90)+'px');s.style.setProperty('--dy',Math.round((Math.random()*2-1)*90)+'px');const dur=30+Math.random()*35;s.style.animationDuration=dur+'s';s.style.animationDelay=-Math.random()*dur+'s';floatCtn.appendChild(s)}
+</script>
